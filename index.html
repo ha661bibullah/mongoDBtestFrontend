@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form with MongoDB</title>
+</head>
+<body>
+  <h2>User Form</h2>
+  <form id="userForm">
+    <input type="text" placeholder="Name" name="name" required><br>
+    <input type="email" placeholder="Email" name="email" required><br>
+    <input type="password" placeholder="Password" name="password" required><br>
+    <input type="date" placeholder="Date of Birth" name="dob" required><br>
+    <input type="text" placeholder="Phone" name="phone" required><br>
+    <input type="text" placeholder="Website" name="website"><br>
+    <input type="number" placeholder="Age" name="age"><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    const form = document.getElementById("userForm");
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      const response = await fetch("https://mongodbtestbackend.onrender.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const resData = await response.json();
+      result.innerText = resData.message || "Something went wrong";
+    });
+  </script>
+</body>
+</html>
